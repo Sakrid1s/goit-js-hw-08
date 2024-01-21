@@ -91,4 +91,36 @@ function onGalleryClick(event) {
     return;
   }
   console.log(event.target.dataset.source);
+  const instance = basicLightbox.create(`
+    <img src="${event.target.dataset.source}" width="800" height="600">
+`);
+
+  instance.show();
 }
+
+// const instance = basicLightbox.create(`
+//     <img src="assets/images/image.png" width="800" height="600">
+// `);
+
+// instance.show();
+
+// {
+// 	/*
+// 	 * Prevents the lightbox from closing when clicking its background.
+// 	 */
+// 	closable: true,
+// 	/*
+// 	 * One or more space separated classes to be added to the basicLightbox element.
+// 	 */
+// 	className: '',
+// 	/*
+// 	 * Function that gets executed before the lightbox will be shown.
+// 	 * Returning false will prevent the lightbox from showing.
+// 	 */
+// 	onShow: (instance) => {},
+// 	/*
+// 	 * Function that gets executed before the lightbox closes.
+// 	 * Returning false will prevent the lightbox from closing.
+// 	 */
+// 	onClose: (instance) => {}
+// }
