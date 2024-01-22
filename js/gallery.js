@@ -66,61 +66,53 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 
-const markup = images
-  .map(
-    image => `<li class="gallery-item">
-  <a class="gallery-link" href="${image.original}">
+function galleryMarkup() {
+  const markup = images
+    .map(
+      ({ preview, original, description }) => `
+<li class="gallery-item">
+  <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
-      src="${image.preview}"
-      data-source="${image.original}"
-      alt="${image.description}"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
     />
   </a>
 </li>`
-  )
-  .join('');
+    )
+    .join('');
 
-gallery.insertAdjacentHTML('afterbegin', markup);
-
-gallery.addEventListener('click', onGalleryClick);
-
-function onGalleryClick(event) {
-  event.preventDefault();
-  if (event.target.nodeName !== 'IMG') {
-    return;
-  }
-  console.log(event.target.dataset.source);
-  const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="800" height="600">
-`);
-
-  instance.show();
+  gallery.insertAdjacentHTML('afterbegin', markup);
 }
 
-// const instance = basicLightbox.create(`
-//     <img src="assets/images/image.png" width="800" height="600">
-// `);
+galleryMarkup();
 
-// instance.show();
+gallery.addEventListener('click', onModalOpen);
 
-// {
-// 	/*
-// 	 * Prevents the lightbox from closing when clicking its background.
-// 	 */
-// 	closable: true,
-// 	/*
-// 	 * One or more space separated classes to be added to the basicLightbox element.
-// 	 */
-// 	className: '',
-// 	/*
-// 	 * Function that gets executed before the lightbox will be shown.
-// 	 * Returning false will prevent the lightbox from showing.
-// 	 */
-// 	onShow: (instance) => {},
-// 	/*
-// 	 * Function that gets executed before the lightbox closes.
-// 	 * Returning false will prevent the lightbox from closing.
-// 	 */
-// 	onClose: (instance) => {}
-// }
+function onModalOpen(event) {
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') return;
+  const originalImage = event.target.dataset.source;
+  console.log(originalImage);
+  const modal = basicLightbox.create(`<img src="${originalImage}">`, {
+    onShow: instance => {
+      console.log('addEventListener');
+      gallery.addEventListener('keydown', onModalClose);
+    },
+
+    onClose: instance => {
+      console.log('removeEventListener');
+      gallery.removeEventListener('keydown', onModalClose);
+    },
+  });
+
+  modal.show();
+
+  function onModalClose(event) {
+    console.log(event.code);
+    if (event.code === 'Escape') {
+      modal.close();
+    }
+  }
+}
