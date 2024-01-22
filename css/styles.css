@@ -1,20 +1,5 @@
 body {
-  font-family: 'Roboto', sans-serif;
-  color: #434455;
-  font-size: 14px;
   background-color: #fff;
-  line-height: 1.5;
-}
-
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 ul {
@@ -44,4 +29,5 @@ img {
   flex-wrap: wrap;
   gap: 24px;
   justify-content: center;
+  align-items: center;
 }
