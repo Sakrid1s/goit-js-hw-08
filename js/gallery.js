@@ -83,7 +83,7 @@ function galleryMarkup() {
     )
     .join('');
 
-  gallery.insertAdjacentHTML('afterbegin', markup);
+  gallery.innerHTML = markup;
 }
 
 galleryMarkup();
@@ -97,20 +97,17 @@ function onModalOpen(event) {
   console.log(originalImage);
   const modal = basicLightbox.create(`<img src="${originalImage}">`, {
     onShow: instance => {
-      console.log('addEventListener');
-      gallery.addEventListener('keydown', onModalClose);
+      document.addEventListener('keydown', onModalClose);
     },
 
     onClose: instance => {
-      console.log('removeEventListener');
-      gallery.removeEventListener('keydown', onModalClose);
+      document.removeEventListener('keydown', onModalClose);
     },
   });
 
   modal.show();
 
   function onModalClose(event) {
-    console.log(event.code);
     if (event.code === 'Escape') {
       modal.close();
     }
